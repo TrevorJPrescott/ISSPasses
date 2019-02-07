@@ -20,10 +20,14 @@ import com.trevorpc.internationalspacestationpasses.adapter.ResponseAdapter;
 
 import com.trevorpc.internationalspacestationpasses.model.FullResponse;
 import com.trevorpc.internationalspacestationpasses.model.Response;
+import com.trevorpc.internationalspacestationpasses.retrofit.DaggerNewRetrofitClient;
 import com.trevorpc.internationalspacestationpasses.retrofit.IMyAPI;
+import com.trevorpc.internationalspacestationpasses.retrofit.NewRetrofitClient;
 import com.trevorpc.internationalspacestationpasses.retrofit.RetrofitClient;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -49,11 +53,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         //Location
         LocationGetter();
 
-        //Init API
-        Retrofit retrofit = RetrofitClient.getInstance();
+
+
+        NewRetrofitClient client = DaggerNewRetrofitClient.create();
+        RetrofitClient retrofitClient = client.getRetrofitClient();
+        Retrofit retrofit = retrofitClient.getOurInstance();
+
         myAPI = retrofit.create(IMyAPI.class);
         Log.d(TAG, "API setUp success ");
 
@@ -125,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new SingleObserver<FullResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        Log.d(TAG, "onSubscribe: ");
                     }
 
                     @Override

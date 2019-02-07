@@ -5,13 +5,15 @@ import com.trevorpc.internationalspacestationpasses.model.Response;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface IMyAPI {
 
+public interface IMyAPI {
 
     @GET("iss-pass.json")
     Single<FullResponse> getResponse(
